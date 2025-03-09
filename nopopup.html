@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customizable Key Button</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f4f4f4;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .settings-icon {
+            font-size: 22px;
+            cursor: pointer;
+            display: inline-block;
+            margin-left: 10px;
+            padding: 5px;
+        }
+        .highlight {
+            background-color: yellow;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .settings-message {
+            display: none;
+            font-size: 16px;
+            color: white;
+            background: #ff5733;
+            padding: 8px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Customizable Compile Button</h2>
+    <p>Press the button below or set your custom key to trigger the action.</p>
+    <button id="compileButton">Compile</button>
+    <p>
+        Current Compile Key: <strong id="currentKey">None</strong>
+        <span class="settings-icon" id="settings">⚙️</span>
+    </p>
+    <p id="settingsMessage" class="settings-message">Choose a key...</p>
+    
+    <script>
+        let customKey = null;
+        let settingMode = false;
+        
+        document.getElementById("compileButton").addEventListener("click", compile);
+        document.getElementById("settings").addEventListener("click", function() {
+            settingMode = !settingMode;
+            const settingsMessage = document.getElementById("settingsMessage");
+            if (settingMode) {
+                document.getElementById("currentKey").classList.add("highlight");
+                settingsMessage.style.display = "block";
+            } else {
+                document.getElementById("currentKey").classList.remove("highlight");
+                settingsMessage.style.display = "none";
+            }
+        });
+
+        document.addEventListener("keydown", function(event) {
+            if (settingMode) {
+                customKey = event.key;
+                document.getElementById("currentKey").textContent = customKey.toUpperCase();
+                document.getElementById("currentKey").classList.remove("highlight");
+                document.getElementById("settingsMessage").style.display = "none";
+                settingMode = false;
+            } else if (event.key === customKey) {
+                compile();
+            }
+        });
+
+        function compile() {
+            alert("Compiling...");
+        }
+    </script>
+</body>
+</html>
+
